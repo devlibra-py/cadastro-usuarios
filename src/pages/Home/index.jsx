@@ -1,13 +1,29 @@
-import UsersImage from "../../assets/users.png";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import DefaultButton from "../../components/Button/index.jsx";
+import Body from "../../components/Body";
+import MainCardImage from "../../components/MainCardImage";
 
 function Home() {
-  return (
-    <div className="flex flex-col items-center justify-evenly w-full min-w-screen h-full min-h-screen bg-[#181f36]">
-      <div className="bg-linear-to-r from-[#fe7e5d] to-[#7f3841] h-[30vh] w-[90vw] max-w-200 rounded-[30px] flex justify-center">
-        <img src={UsersImage} alt="imagem-usuarios" />
-      </div>
+  const inputName = useRef();
+  const inputAge = useRef();
+  const inputEmail = useRef();
 
-      <div className="w-125">
+  const navigate = useNavigate();
+
+  async function registerNewUser() {
+    await api.post("/usuarios", {
+      email: inputEmail.current.value,
+      age: parseInt(inputAge.current.value),
+      name: inputName.current.value,
+    });
+  }
+
+  return (
+    <Body>
+      <MainCardImage />
+      <div className="w-125 flex flex-col items-center gap-y-10">
         <h2 className="text-white text-center font-bold text-[38px]">
           Cadastrar Usuário
         </h2>
@@ -26,6 +42,7 @@ function Home() {
                 id="nome"
                 type="text"
                 placeholder="Nome do usuário"
+                ref={inputName}
               />
             </div>
 
@@ -38,6 +55,7 @@ function Home() {
                 id="idade"
                 type="number"
                 placeholder="Idade do usuário"
+                ref={inputAge}
               />
             </div>
           </div>
@@ -52,15 +70,27 @@ function Home() {
               id="email"
               type="email"
               placeholder="E-mail do usuário"
+              ref={inputEmail}
             />
           </div>
 
-          <button className="border-none rounded-4xl bg-linear-to-r from-[#fe7e5d] to-[#ff6378] text-white text[16px] p-4 w-fit cursor-pointer hover:opacity-80 hover:active:opacity-50">
-            Cadastrar Usuário
-          </button>
+          <DefaultButton
+            type="submit"
+            onClick={registerNewUser}
+            theme="primary"
+          >
+            Cadastrar Usuarios
+          </DefaultButton>
         </form>
+        <DefaultButton
+          type="button"
+          theme="standard"
+          onClick={() => navigate("/lista-de-usuarios")}
+        >
+          Lista de Usuários
+        </DefaultButton>
       </div>
-    </div>
+    </Body>
   );
 }
 
