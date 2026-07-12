@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../services/api";
 import Body from "../../components/Body/index.jsx";
 import MainCardImage from "../../components/MainCardImage/index.jsx";
-import Trash from "../../assets/trash.svg";
+import DeleteIcon from "../../components/DeleteIcon";
 
 function ListUsers() {
   const [users, setUsers] = useState([]);
@@ -39,7 +39,7 @@ function ListUsers() {
               <p>{user.age}</p>
               <p>{user.email}</p>
             </div>
-            <Trash />
+            <DeleteIcon />
           </div>
         ))}
       </div>
