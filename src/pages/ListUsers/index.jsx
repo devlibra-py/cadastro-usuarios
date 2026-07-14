@@ -3,9 +3,13 @@ import api from "../../services/api";
 import Body from "../../components/Body/index.jsx";
 import MainCardImage from "../../components/MainCardImage/index.jsx";
 import DeleteIcon from "../../components/DeleteIcon";
+import Title from "../../components/Title/index.jsx";
+import DefaultButton from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 function ListUsers() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getUsers() {
@@ -15,11 +19,19 @@ function ListUsers() {
     getUsers();
   }, []);
 
+  async function deleteUsers(id) {
+    await api.delete(`/usuarios/${id}`);
+
+    const updatedUsers = users.filter((user) => user.id !== id);
+
+    setUsers(updatedUsers);
+  }
+
   return (
     <Body>
       <MainCardImage />
-      <h1>Lista de Usuários</h1>
-      <div>
+      <Title>Lista de Usuários</Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {users.map((user) => (
           <div
             key={user.id}
@@ -31,7 +43,7 @@ function ListUsers() {
             />
             <div className="text-white font-extralight text-sm">
               <h3
-                className="text-2xl mb-0.7
+                className="text-2xl mb-0.7 capitalize
               "
               >
                 {user.name}
@@ -39,10 +51,18 @@ function ListUsers() {
               <p>{user.age}</p>
               <p>{user.email}</p>
             </div>
-            <DeleteIcon />
+            <DeleteIcon onClick={() => deleteUsers(user.id)} />
           </div>
         ))}
       </div>
+
+      <DefaultButton
+        type="button"
+        theme="standard"
+        onClick={() => navigate("/")}
+      >
+        Voltar
+      </DefaultButton>
     </Body>
   );
 }

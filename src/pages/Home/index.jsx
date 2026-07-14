@@ -4,6 +4,7 @@ import api from "../../services/api";
 import DefaultButton from "../../components/Button/index.jsx";
 import Body from "../../components/Body";
 import MainCardImage from "../../components/MainCardImage";
+import Title from "../../components/Title/index.jsx";
 
 function Home() {
   const inputName = useRef();
@@ -24,9 +25,8 @@ function Home() {
     <Body>
       <MainCardImage />
       <div className="w-125 flex flex-col items-center gap-y-10">
-        <h2 className="text-white text-center font-bold text-[38px]">
-          Cadastrar Usuário
-        </h2>
+        <Title>Cadastrar Usuários</Title>
+
         <form
           className="w-full rounded-xl 
                        flex flex-col items-center gap-y-5"
